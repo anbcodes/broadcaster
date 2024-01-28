@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      button {
+        padding: 10px;
+        border: black 1px solid;
+        border-radius: 5px;
+        margin: 10px 0px;
+        max-width: 300px;
+        background-color: white;
+      }
+      button:hover {
+        filter: brightness(80%);
+      }
+      button:active {
+        filter: brightness(60%);
+      }
+      body {
+        display: flex;
+        flex-direction: column;
+        max-width: 500px;
+        margin: auto;
+      }
+      pre {
+        border: black 1px solid;
+        margin-top: -8px;
+        border-radius: 5px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Broadcaster</h1>
+    <button id="send-clipboard">Send Clipboard</button>
+    <textarea id="textarea" rows="10"></textarea>
+    <button id="send-textarea">Send textarea</button>
+    <div id="received"></div>
+    <script src="index.js"></script>
+  </body>
+</html>

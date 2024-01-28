@@ -1,0 +1,30 @@
+{
+  "name": "broadcaster",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "esbuild --bundle server.ts --platform=node --outfile=server.js && esbuild --bundle src/index.ts --outfile=public/index.js",
+    "dev": "concurrently --kill-others 'npm run esbuild:dev' 'npm run server:dev'",
+    "esbuild:dev": "esbuild --watch --bundle src/index.ts --outfile=public/index.js",
+    "server:dev": "nodemon --ignore 'src' --ignore 'data' server.ts 8000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "d3-ease": "^3.0.1",
+    "serve-handler": "^6.1.5",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "@types/d3-ease": "^3.0.2",
+    "@types/serve-handler": "^6.1.4",
+    "@types/ws": "^8.5.10",
+    "concurrently": "^8.2.2",
+    "esbuild": "^0.19.11",
+    "nodemon": "^3.0.3",
+    "ts-node": "^10.9.2"
+  }
+}
