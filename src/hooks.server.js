@@ -7,9 +7,10 @@ export async function handle({ event, resolve }) {
     const query = new URL(event.request.url).searchParams.get('s');
     const session = query ?? cookie;
 	event.locals.session = (await db.query('SELECT * FROM sessions WHERE id = $1', [session])).rows[0];
-    console.log(session, event.locals.session);
 
-	const response = await resolve(event);
+	const response = await resolve(event, {
+        transformPageChunk: ({ html }) => html.replace('%theme%', event.cookies.get('theme') ?? '')
+    });
 
 	return response;
 }
