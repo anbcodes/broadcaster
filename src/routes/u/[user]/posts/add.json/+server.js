@@ -8,10 +8,10 @@ export async function POST({ params, request, locals }) {
         return json({ error: 'Not logged in' }, { status: 401 });
     }
 
-    const { content, viewableTo = 'none' } = await request.json();
+    const { content, include, exclude } = await request.json();
 
-    const result = await db.query('INSERT INTO posts (username, content, viewableTo, created, updated) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-        [user, content, viewableTo, Temporal.Now.zonedDateTimeISO().toString(), Temporal.Now.zonedDateTimeISO().toString()]
+    const result = await db.query('INSERT INTO posts (username, content, include, exclude, created, updated) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [user, content, include, exclude, Temporal.Now.zonedDateTimeISO().toString(), Temporal.Now.zonedDateTimeISO().toString()]
     );
 
     return json(result.rows[0]);
