@@ -1,20 +1,33 @@
-import { db } from '$lib/db';
-import { json } from '@sveltejs/kit';
-import { Temporal } from 'temporal-polyfill';
+import { db } from "$lib/db";
+import { json } from "@sveltejs/kit";
+import { Temporal } from "temporal-polyfill";
 
 export async function POST({ params, request, locals }) {
-    const { user } = params;
-    if (locals.session?.username !== user) {
-        return json({ error: 'Not logged in' }, { status: 401 });
-    }
+  const { user } = params;
+  if (locals.session?.username !== user) {
+    return json({ error: "Not logged in" }, { status: 401 });
+  }
 
-    const { content, viewableTo = null } = await request.json();
+  let { content, include = null, exclude = null } = await request.json();
 
-    const result = await db.query('UPDATE posts SET content = $1, viewableto = COALESCE($2, viewableto), updated = $3 WHERE id=$4 RETURNING *',
-        [content, viewableTo, Temporal.Now.zonedDateTimeISO().toString(), params.post]
-    );
+  if (include?.length === 1 && include[0] === "just you") {
+    include = [];
+  }
 
-    console.log(result);
+  if (exclude?.length === 1 && exclude[0] === "just you") {
+    exclude = [];
+  }
 
-    return json(result.rows[0]);
+  const result = await db.query(
+    "UPDATE posts SET content = $1, include = COALESCE($2, include), exclude = COALESCE($3, exclude), updated = $4 WHERE id=$5 RETURNING *",
+    [
+      content,
+      include,
+      exclude,
+      Temporal.Now.zonedDateTimeISO().toString(),
+      params.post,
+    ]
+  );
+
+  return json(result.rows[0]);
 }

@@ -4,10 +4,11 @@ export const actions ={
     default: async ({request, fetch}) => {
         const form = await request.formData();
         const content = form.get('content');
-        const viewableTo = form.get('viewableTo') ?? null;
+        const include = form.get('include') ?? '';
+        const exclude = form.get('exclude') ?? '';
 
-        if (typeof content !== 'string' || typeof viewableTo !== 'string') {
-            return fail(400, {content: '', viewableTo: '', error: 'Invalid input'});
+        if (typeof content !== 'string' || typeof include !== 'string' || typeof exclude !== 'string') {
+            return fail(400, {content: '', include: '', exclude: '', error: 'Invalid input'});
         }
 
         const result = await (await fetch('./edit.json', {
@@ -15,11 +16,11 @@ export const actions ={
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({content, viewableTo})
+            body: JSON.stringify({content, include: include.split(',').filter(v => v.trim()), exclude: exclude.split(',').filter(v => v.trim())})
         })).json();
 
         if (result.error) {
-            return fail(400, {content, viewableTo, error: result.error});
+            return fail(400, {content, include, exclude, error: result.error});
         }
 
         return redirect(303, '../');
