@@ -8,6 +8,6 @@
 		<button class="btn m-3">Theme: {data.theme}</button>
 	</form>
 </div>
-<main class="max-w-[800px] mx-auto">
+<main class="max-w-[800px] mx-auto p-5">
 	{@render children()}
 </main>
