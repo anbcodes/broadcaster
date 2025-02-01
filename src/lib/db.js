@@ -12,7 +12,8 @@ import pg from 'pg';
 /**
  * @typedef {{
  *  username: string,
- *  viewableto: string,
+ *  include: string[],
+ *  exclude: string[],
  *  content: string,
  *  created: string,
  *  updated: string,
