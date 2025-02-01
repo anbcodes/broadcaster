@@ -5,16 +5,18 @@
     import StarterKit from "@tiptap/starter-kit";
     import { onDestroy, onMount } from "svelte";
     import { Markdown } from "tiptap-markdown";
+    import ChipInput from "./ChipInput.svelte";
 
     /**
      * @type {{
      *    viewableAutocomplete: string[],
      *    content: string | undefined,
-     *    viewableTo: string | undefined,
+     *    include: string | undefined,
+     *    exclude: string | undefined,
      *    user: string,
      * }}
      */
-    let {viewableAutocomplete, content, viewableTo, user} = $props();
+    let {viewableAutocomplete, content, include, exclude, user} = $props();
     /** @type {Editor|undefined} */
     let editor = $state();
     let element = $state();
@@ -57,20 +59,43 @@
 
 <div bind:this={element} class="prose w-full max-w-full jsShown"></div>
 <textarea bind:this={textarea} name="content" placeholder="Next post" class="jsHidden textarea textarea-bordered"></textarea>
-<label class="label pt-3" for="viewableTo">
-    <span class="label-text">Viewable To</span>
-    <div>
-        <input type="text" list="viewable" name="viewableTo" value={viewableTo ?? 'none'} class="input input-bordered" />
+    <label class="input input-bordered flex items-center gap-2 mt-2" id="include-label" for="include">
+        Visibility
+        <ChipInput
+            class="flex-grow"
+            chipOptions={['just you', 'everyone', ...viewableAutocomplete]}
+            value={include ?? 'just you'}
+            placeholder="just you"
+            name="include"
+            labelid="include-label"
+        ></ChipInput>
         <div class="text-sm text-center"><a href="/u/{user}/groups">Manage Groups</a></div>
-    </div>
-    <datalist id="viewable">
-        <option value="none"></option>
-        <option value="all"></option>
-        {#each viewableAutocomplete as autocomplete}
-            <option value={autocomplete}></option>
-        {/each}
-    </datalist>
-</label>
+        <datalist id="include-list">
+            <option value="just you"></option>
+            <option value="everyone"></option>
+            {#each viewableAutocomplete as autocomplete}
+                <option value={autocomplete}></option>
+            {/each}
+        </datalist>
+    </label>
+    <div>Prefix groups with '#' and users with '@'. Ex: @anbcodes, #school</div>
+    <details class="dropdown [&_.isopenhidden]:open:hidden [&_.isopenshown]:open:inline mt-3">
+        <summary class="btn btn-link">
+            <span class="isopenhidden">Show exclude list</span>
+            <span class="hidden isopenshown">Hide exclude list</span>
+        </summary>
+        <ChipInput
+            class="input input-bordered inline-flex items-center gap-2"
+            chipOptions={['everyone', ...viewableAutocomplete]}
+            value={exclude ?? ''}
+            placeholder="just you"
+            name="exclude"
+            labelid="none"
+        ></ChipInput>
+        <!-- <input type="text" list="exclude-list" name="exclude" value={exclude ?? ''} class="input input-bordered" /> -->
+    </details>
+    
+
 
 
 <style>
