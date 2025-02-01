@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "module": "ESNext",
+        "strict": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "checkJs": true,
+    },
+    "include": ["**/**.js"],
+    "exclude": ["node_modules", "**/*.spec.ts"]
+}
