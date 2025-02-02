@@ -1,5 +1,5 @@
-import { PG_URL } from '$env/static/private';
-import pg from 'pg';
+import { PG_URL } from "$env/static/private";
+import pg from "pg";
 
 /**
  * @typedef {{
@@ -36,7 +36,7 @@ import pg from 'pg';
  */
 
 const client = new pg.Client({
-    connectionString: PG_URL,
+  connectionString: PG_URL,
 });
 
 client.connect();

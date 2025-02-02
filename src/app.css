@@ -1,25 +1,24 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 .jsEnabled .jsHidden {
-    display: none;
+  display: none;
 }
 
 .jsEnabled .jsVisible {
-    display: block;
+  display: block;
 }
 
 .jsEnabled .jsVisible.flex {
-    display: flex;
+  display: flex;
 }
 
 /* Tiptap placeholder */
 .tiptap p.is-editor-empty:first-child::before {
-    color: #adb5bd;
-    content: attr(data-placeholder);
-    float: left;
-    height: 0;
-    pointer-events: none;
-  }
-  
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
