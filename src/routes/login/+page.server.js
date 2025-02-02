@@ -21,6 +21,6 @@ export const actions = {
 
     cookies.set("session", sessionJson.id, { path: "/", sameSite: "lax" });
 
-    return redirect(303, `/u/${username}/posts`);
+    return redirect(303, `/u/${username}`);
   },
 };
