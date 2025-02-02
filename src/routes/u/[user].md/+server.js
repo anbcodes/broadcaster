@@ -4,7 +4,7 @@ export async function GET({ params, fetch, request }) {
   const { user } = params;
   /** @type {import('$lib/db.js').Post[]} */
   const posts = await (
-    await fetch(`./posts.json` + new URL(request.url).search)
+    await fetch(`/u/${user}.json` + new URL(request.url).search)
   ).json();
   return text(
     "# " +

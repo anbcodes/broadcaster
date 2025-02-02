@@ -3,7 +3,7 @@
 </script>
 
 <div class="prose w-full max-w-full pt-10">
-  <div class="text-sm pb-4"><a href="/u/{data.user}/posts">Back</a></div>
+  <div class="text-sm pb-4"><a href="/u/{data.user}">Back</a></div>
   <h1>Your groups</h1>
   <ul>
     {#each data.groups as group}

@@ -19,12 +19,12 @@
 
 <div class="mt-4 text-sm">
   {#if showname}
-    <a href={`./u/${post.username}/posts`} class="link-hover pr-1"
-      >@{post.username}</a
-    >
+    <a href={`/u/${post.username}`} class="link-hover pr-1">@{post.username}</a>
   {/if}
   {getRelativeTime(Temporal.ZonedDateTime.from(post.created))}
-  {#if editable}<a href={`./posts/${post.id}/edit`} class="link">edit</a>{/if}
+  {#if editable}<a href={`/u/${post.username}/p/${post.id}/edit`} class="link"
+      >edit</a
+    >{/if}
 </div>
 <div class="card card-bordered border-neutral p-4 mb-4">
   {@html md.render(post.content)}

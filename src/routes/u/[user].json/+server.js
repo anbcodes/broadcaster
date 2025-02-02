@@ -6,9 +6,7 @@ export async function GET({ params, locals, fetch }) {
   const userForPosts = params.user;
 
   /** @type {{name: string, owner: string}[]} */
-  const groups = await fetch(`/u/${loggedInUser}/groups.json`).then((r) =>
-    r.json()
-  );
+  const groups = await fetch(`/u/${loggedInUser}/g.json`).then((r) => r.json());
 
   /** @type {import('pg').QueryResult<import('$lib/db.js').Post>} */
   const posts = await db.query(

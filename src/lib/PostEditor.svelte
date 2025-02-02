@@ -81,7 +81,7 @@
     labelid="include-label"
   ></ChipInput>
   <div class="text-sm text-center">
-    <a href="/u/{user}/groups">Manage Groups</a>
+    <a href="/u/{user}/g">Manage Groups</a>
   </div>
   <datalist id="include-list">
     <option value="just you"></option>
