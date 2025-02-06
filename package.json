@@ -34,6 +34,7 @@
     "@tiptap/starter-kit": "^2.11.4",
     "argon2": "^0.41.1",
     "markdown-it": "^14.1.0",
+    "markdown-it-anchor": "^9.2.0",
     "pg": "^8.13.1",
     "temporal-polyfill": "^0.2.5",
     "tiptap-markdown": "^0.8.10"
