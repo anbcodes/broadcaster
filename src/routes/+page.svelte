@@ -9,7 +9,7 @@
   const viewableList = getAutoCompleteList(
     data.user ?? "",
     "error" in data.posts ? [] : data.posts,
-    "error" in data.groups ? [] : data.groups
+    "error" in data.groups ? [] : data.groups,
   );
 
   /** @type {HTMLFormElement | undefined} */
@@ -30,8 +30,8 @@
 </script>
 
 {#if data.user}
-  <h1 class="text-center text-5xl pb-5">The Broadcaster</h1>
-  <form class="form-control" method="POST">
+  <h1 class="text-center text-4xl pb-5">The Broadcaster</h1>
+  <form class="form-control" method="POST" bind:this={formEl}>
     <PostEditor
       content={form?.content}
       viewableAutocomplete={viewableList}
