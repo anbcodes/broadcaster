@@ -13,7 +13,6 @@
 </script>
 
 <div class="prose w-full max-w-full pt-10">
-  <div class="text-sm pb-4"><a href="/">Home</a></div>
   <h1>{data.user}'s Posts</h1>
 
   {#if error}
