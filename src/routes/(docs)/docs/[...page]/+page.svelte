@@ -4,10 +4,11 @@
   import TableOfContents from "./TableOfContents.svelte";
   import anchor from "markdown-it-anchor";
   import { slugify } from "$lib/util";
+  import markdownItAttrs from "markdown-it-attrs";
   let { data } = $props();
   const md = markdownit({
     linkify: true,
-  }).use(anchor, { slugify });
+  }).use(markdownItAttrs, anchor, { slugify });
 </script>
 
 <div class="flex p-2 gap-4">
@@ -47,7 +48,7 @@
   </div>
 
   <div class="drawer-content">
-    <main class="p-5 prose !max-w-[800px]">
+    <main class="p-5 prose !max-w-[800px] pb-40">
       {@html md.render(data.content)}
     </main>
   </div>

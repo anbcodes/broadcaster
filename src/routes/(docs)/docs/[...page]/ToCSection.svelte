@@ -1,10 +1,10 @@
 <script>
-  /** @type {{title: string, children: import('svelte').Snippet}}*/
-  let { title, children } = $props();
+  /** @type {{title: string, open?: boolean, children: import('svelte').Snippet}}*/
+  let { title, open, children } = $props();
 </script>
 
 <li>
-  <details>
+  <details {open}>
     <summary>{title}</summary>
     <ul>
       {@render children()}

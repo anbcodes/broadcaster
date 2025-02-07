@@ -1,41 +1,61 @@
-import { redirect } from '@sveltejs/kit';
+import { redirect } from "@sveltejs/kit";
 
 export const actions = {
-  default: async ({request, cookies}) => {
+  default: async ({ request, cookies }) => {
     const data = await request.formData();
-    const mode = data.get('mode') ?? '';
-    const url = data.get('url') ?? '';
-    if (typeof mode !== 'string' || typeof url !== 'string') {
+    const mode = data.get("mode") ?? "";
+    const url = data.get("url") ?? "";
+    if (typeof mode !== "string" || typeof url !== "string") {
       return {
         status: 400,
-        body: 'Invalid request',
+        body: "Invalid request",
       };
     }
-    const oldMode = cookies.get('doc-mode') || 'user';
+    const oldMode = cookies.get("doc-mode") || "user";
 
-    cookies.set('doc-mode', mode, {path: '/', maxAge: 60*60*24*365*4});
+    cookies.set("doc-mode", mode, {
+      path: "/",
+      maxAge: 60 * 60 * 24 * 365 * 4,
+    });
 
     if (url) {
       const newUrl = new URL(url.replace(`/docs/${oldMode}`, `/docs/${mode}`));
       return redirect(303, `${newUrl.pathname}${newUrl.search}${newUrl.hash}`);
     }
-  }
-}
+  },
+};
 
-export async function load({ params, cookies }) {
-  let imported;
-  try {
-    imported = await import(`../../../../docs/${params.page}.md?raw`);
-  } catch (e) {
-    try {
-      imported = await import(`../../../../docs/${params.page}index.md?raw`);
-    } catch (e) {
-      imported = await import(`../../../../docs/404.md?raw`);
-    }
-  } 
+export async function load({ params, cookies, locals }) {
+  const pages = import.meta.glob("../../../../docs/**/*.md", {
+    query: "?raw",
+    import: "default",
+    eager: true,
+  });
+  let imported =
+    /** @type {string} */
+    (
+      pages[`../../../../docs/${params.page}.md`] ??
+        pages[
+          `../../../../docs/${params.page}${
+            params.page === "" ? "" : "/"
+          }index.md`
+        ] ??
+        pages["../../../../docs/404.md"]
+    );
+
+  let replaceRules = {
+    USER: locals.session?.username || "[your username]",
+    URL: "https://b.anb.codes",
+  };
+
+  imported = Object.entries(replaceRules).reduce(
+    (acc, [key, value]) => acc.replaceAll(`%${key}%`, value),
+    imported
+  );
+
   return {
-    content: imported.default,
-    theme: cookies.get('theme') || 'system',
-    mode: cookies.get('doc-mode') || 'user',
+    content: imported,
+    theme: cookies.get("theme") || "system",
+    mode: cookies.get("doc-mode") || "user",
   };
 }

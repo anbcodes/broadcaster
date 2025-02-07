@@ -6,6 +6,10 @@
 
   /** @type {{mode: string}} */
   let { mode } = $props();
+  /**
+   * @param {string} s
+   */
+  const tech = (s) => (mode !== "user" ? s : "");
 </script>
 
 <ul class="menu">
@@ -35,7 +39,16 @@
   </div>
   <ToCItem href="/docs/">Overview</ToCItem>
   <ToCItem href="/docs/{mode}">Getting Started</ToCItem>
-  <ToCItem href="/docs/{mode}/registration">Registration</ToCItem>
-  <ToCItem href="/docs/{mode}/login">Login</ToCItem>
-  <ToCItem href="/docs/{mode}/logout">Logout</ToCItem>
+  <ToCSection open title="Users">
+    <ToCItem href="/docs/{mode}/users">Overview</ToCItem>
+    <ToCItem href="/docs/{mode}/users#createuser">Registering</ToCItem>
+    <ToCItem href="/docs/{mode}/users#login"
+      >Logging In {tech("(Creating a session)")}</ToCItem
+    >
+    <ToCItem href="/docs/{mode}/users#logout"
+      >Logging Out {tech("(Deleting a session)")}</ToCItem
+    >
+  </ToCSection>
+  <ToCItem href="/docs/{mode}/posting">Posting</ToCItem>
+  <ToCItem href="/docs/{mode}/groups">Groups</ToCItem>
 </ul>

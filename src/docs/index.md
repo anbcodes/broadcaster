@@ -19,25 +19,3 @@ A group is a collection of users. One user owns the group and can add and remove
 
 The Broadcaster tries to be fast, flexible, and reliable. It supports many different modes of accessing it (there's a website, a cli, a text api, and a json api).
 The goal is to be able to use it from anywhere, at any time and never have to wait.
-
-### Sub Goals
-
-### More sub goals
-
-## Another section
-
-# And lastly
-
-## Wait nope
-
-### Even deeper
-
-#### And deeper
-
-##### And deeper
-
-##### And still here
-
-## Ooh a jump
-
-# And were back
