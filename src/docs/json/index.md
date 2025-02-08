@@ -18,10 +18,10 @@ const response = await fetch("%URL%/login.json", {
 
 const session = (await response.json()).session;
 
-await fetch(`%URL%/u/%USER%/p/add.json?s=${session}`, { content: "hello" });
+await fetch(`%URL%/u/%USER%/p/new.json?s=${session}`, { content: "hello" });
 ```
 
-This uses the login api endpoint and the p/add.json api endpoint to add the
+This uses the login api endpoint and the p/new.json api endpoint to add the
 post. One thing to notice is that the session is a query parameter. In all
 requests, it can be a query parameter `s` or a cookie named `session`.
 

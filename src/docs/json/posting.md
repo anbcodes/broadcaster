@@ -7,9 +7,9 @@ string with a list of people who can and can't see it (see
 The Posting API is split into the following endpoints:
 
 - [`/u/[user].json` - Get a user's posts](#get)
-- [`/u/[user]/p/add.json` - Create a post](#create)
+- [`/u/[user]/p/new.json` - Create a post](#create)
 - [`/u/[user]/p/[post]/edit.json` - Edit a post](#edit)
-- `/u/[user]/p/[post]/remove.json` - Remove a post (unimplemented)
+- `/u/[user]/p/[post]/delete.json` - Delete a post (unimplemented)
 
 ## `/u/[user].json` - Get a user's posts {#get}
 
@@ -50,36 +50,36 @@ curl '%URL%/u/joe.json'
 
 ```json
 [
-    {
-        "id": 26,
-        "username": "joe",
-        "content": "Hello World!",
-        "created": "2025-02-07T20:03:20.705-05:00[America/New_York]",
-        "updated": "2025-02-07T20:03:20.705-05:00[America/New_York]",
-        "include": ["everyone"],
-        "exclude": []
-    },
-    {
-        "id": 25,
-        "username": "joe",
-        "content": "Hi everyone!",
-        "created": "2025-02-07T20:02:41.377-05:00[America/New_York]",
-        "updated": "2025-02-07T20:02:41.377-05:00[America/New_York]",
-        "include": ["everyone"],
-        "exclude": []
-    }
+  {
+    "id": 26,
+    "username": "joe",
+    "content": "Hello World!",
+    "created": "2025-02-07T20:03:20.705-05:00[America/New_York]",
+    "updated": "2025-02-07T20:03:20.705-05:00[America/New_York]",
+    "include": ["everyone"],
+    "exclude": []
+  },
+  {
+    "id": 25,
+    "username": "joe",
+    "content": "Hi everyone!",
+    "created": "2025-02-07T20:02:41.377-05:00[America/New_York]",
+    "updated": "2025-02-07T20:02:41.377-05:00[America/New_York]",
+    "include": ["everyone"],
+    "exclude": []
+  }
 ]
 ```
 
-## `/u/[user]/p/add.json` - Create a post {#create}
+## `/u/[user]/p/new.json` - Create a post {#create}
 
 ### Request format
 
 ```json
 {
-    "content": "string",
-    "include": "string[]",
-    "exclude": "string[]"
+  "content": "string",
+  "include": "string[]",
+  "exclude": "string[]"
 }
 ```
 
@@ -87,13 +87,13 @@ curl '%URL%/u/joe.json'
 
 ```json
 {
-    "id": "number",
-    "username": "string",
-    "content": "string",
-    "include": "string[]",
-    "exclude": "string[]",
-    "created": "string",
-    "updated": "string"
+  "id": "number",
+  "username": "string",
+  "content": "string",
+  "include": "string[]",
+  "exclude": "string[]",
+  "created": "string",
+  "updated": "string"
 }
 ```
 
@@ -106,20 +106,20 @@ curl '%URL%/u/joe.json'
 `joe` posts "Hi everyone!" to "everyone".
 
 ```bash
-curl '%URL%/u/joe/p/add.json?s=i5feho1gg6f3dfo' \
+curl '%URL%/u/joe/p/new.json?s=i5feho1gg6f3dfo' \
   -d '{"content": "Hi everyone!", "include": ["everyone"]}' \
   -H "Content-Type: application/json"
 ```
 
 ```json
 {
-    "id": 25,
-    "username": "joe",
-    "content": "Hi everyone!",
-    "created": "2025-02-07T20:02:41.377-05:00[America/New_York]",
-    "updated": "2025-02-07T20:02:41.377-05:00[America/New_York]",
-    "include": ["everyone"],
-    "exclude": []
+  "id": 25,
+  "username": "joe",
+  "content": "Hi everyone!",
+  "created": "2025-02-07T20:02:41.377-05:00[America/New_York]",
+  "updated": "2025-02-07T20:02:41.377-05:00[America/New_York]",
+  "include": ["everyone"],
+  "exclude": []
 }
 ```
 
@@ -131,9 +131,9 @@ The edit API is identical to the post API except for the URL.
 
 ```json
 {
-    "content": "[string]", // Optional
-    "include": "[string[]]", // Optional
-    "exclude": "[string[]]" // Optional
+  "content": "[string]", // Optional
+  "include": "[string[]]", // Optional
+  "exclude": "[string[]]" // Optional
 }
 ```
 
@@ -141,13 +141,13 @@ The edit API is identical to the post API except for the URL.
 
 ```json
 {
-    "id": "number",
-    "username": "string",
-    "content": "string",
-    "include": "string[]",
-    "exclude": "string[]",
-    "created": "string",
-    "updated": "string"
+  "id": "number",
+  "username": "string",
+  "content": "string",
+  "include": "string[]",
+  "exclude": "string[]",
+  "created": "string",
+  "updated": "string"
 }
 ```
 
@@ -167,13 +167,13 @@ curl '%URL%/u/joe/p/25/edit.json?s=i5feho1gg6f3dfo' \
 
 ```json
 {
-    "id": 25,
-    "username": "joe",
-    "content": "Bye everyone!",
-    "created": "2025-02-07T20:02:41.377-05:00[America/New_York]",
-    "updated": "2025-02-07T20:11:52.183-05:00[America/New_York]",
-    "include": ["everyone"],
-    "exclude": []
+  "id": 25,
+  "username": "joe",
+  "content": "Bye everyone!",
+  "created": "2025-02-07T20:02:41.377-05:00[America/New_York]",
+  "updated": "2025-02-07T20:11:52.183-05:00[America/New_York]",
+  "include": ["everyone"],
+  "exclude": []
 }
 ```
 

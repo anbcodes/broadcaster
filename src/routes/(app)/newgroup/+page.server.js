@@ -6,7 +6,7 @@ export const actions = {
     const form = await request.formData();
     const name = form.get("name");
 
-    const result = await fetch("/creategroup.json", {
+    const result = await fetch("/newgroup.json", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

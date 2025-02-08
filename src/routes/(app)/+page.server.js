@@ -22,7 +22,7 @@ export const actions = {
     }
 
     const result = await (
-      await fetch(`/u/${locals.session?.username}/p/add.json`, {
+      await fetch(`/u/${locals.session?.username}/p/new.json`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -56,6 +56,8 @@ export async function load({ params, fetch, locals, request }) {
     posts: user ? await fetch(`/index.json`).then((r) => r.json()) : [],
     user: user,
     /** @type {import('$lib/db.js').Group[] | {error: string}} */
-    groups: user ? await fetch(`/u/${user}/g.json`).then((r) => r.json()) : [],
+    groups: user
+      ? await fetch(`/u/${user}/groups.json`).then((r) => r.json())
+      : [],
   };
 }

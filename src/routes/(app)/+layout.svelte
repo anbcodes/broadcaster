@@ -3,7 +3,7 @@
   let { children, data } = $props();
 
   let loggedInLinks = {
-    Groups: "/u/" + data.user + "/g",
+    Groups: "/u/" + data.user + "/groups",
     Logout: "/logout",
   };
 

@@ -50,7 +50,7 @@ export async function load({ params, fetch, locals }) {
     posts: await fetch(`/u/${params.user}.json`).then((r) => r.json()),
     user: params.user,
     /** @type {import('$lib/db.js').Group[]} */
-    groups: await fetch(`/u/${params.user}/g.json`).then((r) => r.json()),
+    groups: await fetch(`/u/${params.user}/groups.json`).then((r) => r.json()),
     self: params.user === locals.session?.username,
     post: params.post,
   };

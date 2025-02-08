@@ -7,14 +7,14 @@ Any user can reference any group.
 
 The groups API is split into the following endpoints:
 
-- [`/creategroup.json` - Create a new group](#create)
-- [`/u/[user]/g.json` - Get the groups a user is in](#get-user)
+- [`/newgroup.json` - Create a new group](#create)
+- [`/u/[user]/groups.json` - Get the groups a user is in](#get-user)
 - [`/g/[group]/members/add.json` - Add a member](#add-member)
 - [`/g/[group]/members/remove.json` - Remove a member](#remove-member)
 - [`/g/[group]/members.json` - List the members](#members)
 - [`/g/[group]/delete.json` - Remove a group](#delete)
 
-## `/creategroup.json` - Create a new group {#create}
+## `/newgroup.json` - Create a new group {#create}
 
 Requires login.
 
@@ -22,7 +22,7 @@ Requires login.
 
 ```json
 {
-    "name": "string"
+  "name": "string"
 }
 ```
 
@@ -30,8 +30,8 @@ Requires login.
 
 ```json
 {
-    "name": "string",
-    "owner": "string"
+  "name": "string",
+  "owner": "string"
 }
 ```
 
@@ -46,7 +46,7 @@ Requires login.
 `joe` creates a new group called "joes_friends".
 
 ```bash
-curl '%URL%/creategroup.json?s=i5feho1gg6f3dfo' \
+curl '%URL%/newgroup.json?s=i5feho1gg6f3dfo' \
   -d '{"name": "joes_friends"}' \
   -H "Content-Type: application/json"
 ```
@@ -55,7 +55,7 @@ curl '%URL%/creategroup.json?s=i5feho1gg6f3dfo' \
 { "name": "joes_friends", "owner": "joe" }
 ```
 
-## `/u/[user]/g.json` - Get a user's groups {#get-user}
+## `/u/[user]/groups.json` - Get a user's groups {#get-user}
 
 > Requires login.
 
@@ -84,7 +84,7 @@ No parameters.
 Get `joe`'s groups.
 
 ```bash
-curl '%URL%/u/joe/g.json?s=i5feho1gg6f3dfo'
+curl '%URL%/u/joe/groups.json?s=i5feho1gg6f3dfo'
 ```
 
 ```json
@@ -99,7 +99,7 @@ Requires login.
 
 ```json
 {
-    "username": "string"
+  "username": "string"
 }
 ```
 
@@ -107,8 +107,8 @@ Requires login.
 
 ```json
 {
-    "groupname": "string",
-    "username": "string"
+  "groupname": "string",
+  "username": "string"
 }
 ```
 
@@ -142,7 +142,7 @@ Requires login.
 
 ```json
 {
-    "username": "string"
+  "username": "string"
 }
 ```
 
@@ -150,8 +150,8 @@ Requires login.
 
 ```json
 {
-    "groupname": "string",
-    "username": "string"
+  "groupname": "string",
+  "username": "string"
 }
 ```
 
@@ -189,8 +189,8 @@ No parameters.
 
 ```json
 {
-    "groupname": "string",
-    "username": "string"
+  "groupname": "string",
+  "username": "string"
 }
 ```
 
@@ -223,8 +223,8 @@ No parameters.
 
 ```json
 {
-    "name": "string",
-    "owner": "string"
+  "name": "string",
+  "owner": "string"
 }
 ```
 
