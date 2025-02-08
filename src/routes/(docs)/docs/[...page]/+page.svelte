@@ -5,9 +5,18 @@
   import anchor from "markdown-it-anchor";
   import { slugify } from "$lib/util";
   import markdownItAttrs from "markdown-it-attrs";
+  import hljs from "highlight.js";
+  import "highlight.js/styles/atom-one-dark-reasonable.min.css";
+
   let { data } = $props();
   const md = markdownit({
     linkify: true,
+    highlight: (str, lang) => {
+      if (!lang || hljs.getLanguage(lang) == null) {
+        return hljs.highlightAuto(str).value;
+      }
+      return hljs.highlight(str, { language: lang }).value;
+    },
   }).use(markdownItAttrs, anchor, { slugify });
 </script>
 

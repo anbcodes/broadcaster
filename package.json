@@ -34,6 +34,7 @@
     "@tiptap/pm": "^2.11.4",
     "@tiptap/starter-kit": "^2.11.4",
     "argon2": "^0.41.1",
+    "highlight.js": "^11.11.1",
     "markdown-it": "^14.1.0",
     "markdown-it-anchor": "^9.2.0",
     "markdown-it-attrs": "^4.3.1",
