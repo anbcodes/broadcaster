@@ -6,7 +6,8 @@ The users API (essentially authentication) consists of the following endpoints:
 - [`/login.json` - Login and get a session](#login)
 - [`/logout.json` - Delete a session](#logout)
 
-There is no "API Key" system. Instead, just login with your username and password and use the session id.
+There is no "API Key" system. Instead, just login with your username and
+password and use the session id.
 
 ## `/createuser.json` - Register a new user {#createuser}
 
@@ -32,20 +33,25 @@ There is no "API Key" system. Instead, just login with your username and passwor
 ### Possible errors
 
 - `User already exists`
-- `Invalid username` - Username must match the rules [described below](#username-rules)
+- `Invalid username` - Username must match the rules
+  [described below](#username-rules)
 
 ### Example
 
 Create a user named `joe` with the password `supersecure`
 
-```js
-const response = await fetch("%URL%/createuser.json", {
-  method: "POST",
-  body: JSON.stringify({
-    username: "joe",
-    password: "supersecure",
-  }),
-});
+```bash
+curl '%URL%/createuser.json' \
+  -d '{"username": "joe", "password": "supersecure"}' \
+  -H "Content-Type: application/json"
+```
+
+```json
+{
+  "username": "joe",
+  "hash": "$argon2id$v=19$m=65536,t=3,p=4$l75StP9Jho5Vk5n333W8/w$1+IzyqSeau/+6RBPPQnVe6sVq3kB07LLyCPzHgxVnFA",
+  "created": "2025-02-07T19:38:03.864-05:00[America/New_York]"
+}
 ```
 
 ## `/login.json` - Login and get a session {#login}
@@ -78,21 +84,24 @@ const response = await fetch("%URL%/createuser.json", {
 
 Login with a user named `joe` with the password `supersecure`
 
-```js
-const response = await fetch("%URL%/login.json", {
-  method: "POST",
-  body: JSON.stringify({
-    username: "joe",
-    password: "supersecure",
-  }),
-});
+```bash
+curl '%URL%/login.json' \
+  -d '{"username": "joe", "password": "supersecure"}' \
+  -H "Content-Type: application/json"
+```
 
-console.log("Your session is: ", response.id);
+```json
+{
+  "id": "a9n20n5ise8vrsv",
+  "username": "joe",
+  "created": "2025-02-07T19:41:52.92-05:00[America/New_York]"
+}
 ```
 
 ## `/logout.json` - Delete a session {#logout}
 
-> Note: Requires a vaild session (either in `?s=session` or in the session cookie)
+> Note: Requires a vaild session (either in `?s=session` or in the session
+> cookie)
 
 ### Request format
 
@@ -114,16 +123,18 @@ console.log("Your session is: ", response.id);
 
 ### Example
 
-Logout/delete the session id `sipibxelb9gwf0y`
+Logout/delete the session id `a9n20n5ise8vrsv`
 
-```js
-const response = await fetch("%URL%/logout.json?s=sipibxelb9gwf0y", {
-  method: "POST",
-});
+```bash
+curl '%URL%/logout.json?s=a9n20n5ise8vrsv' \
+  -X POST
+```
 
-console.log("Response: ", response.success || response.error);
+```json
+{ "success": true }
 ```
 
 ## Username Rules {#username-rules}
 
-A username can only contain letters and numbers (it must match this regex `[a-zA-Z0-9_]{3,40}`). It also must be between 3 and 40 characters.
+A username can only contain letters and numbers (it must match this regex
+`[a-zA-Z0-9_]{3,40}`). It also must be between 3 and 40 characters.

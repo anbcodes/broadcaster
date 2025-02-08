@@ -1,5 +1,6 @@
 import { redirect } from "@sveltejs/kit";
 
+/** @satisfies {import('./$types').Actions}*/
 export const actions = {
   default: async ({ request, cookies }) => {
     const data = await request.formData();
@@ -25,6 +26,7 @@ export const actions = {
   },
 };
 
+/** @type {import('./$types').PageServerLoad}*/
 export async function load({ params, cookies, locals }) {
   const pages = import.meta.glob("../../../../docs/**/*.md", {
     query: "?raw",
@@ -45,12 +47,13 @@ export async function load({ params, cookies, locals }) {
 
   let replaceRules = {
     USER: locals.session?.username || "[your username]",
-    URL: "https://b.anb.codes",
+    // URL: "https://b.anb.codes",
+    URL: "https://localhost:5173",
   };
 
   imported = Object.entries(replaceRules).reduce(
     (acc, [key, value]) => acc.replaceAll(`%${key}%`, value),
-    imported
+    imported,
   );
 
   return {
