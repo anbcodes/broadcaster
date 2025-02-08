@@ -39,9 +39,14 @@ const themes = [
 /** @satisfies {import('./$types').Actions}*/
 export const actions = {
   default: async ({ cookies, request, fetch }) => {
-    const current = cookies.get("theme") ?? "";
-    const next = themes[(themes.indexOf(current) + 1) % themes.length];
-    cookies.set("theme", next, { path: "/" });
+    const data = await request.formData();
+    let theme = data.get("theme") ?? "";
+    if (typeof theme !== "string" || !themes.includes(theme)) {
+      theme = "";
+    }
+    // const current = cookies.get("theme") ?? "";
+    // const next = themes[(themes.indexOf(current) + 1) % themes.length];
+    cookies.set("theme", theme, { path: "/", maxAge: 60 * 60 * 24 * 365 });
     return redirect(303, request.headers.get("referer") ?? "/");
   },
 };

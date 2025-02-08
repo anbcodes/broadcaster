@@ -35,18 +35,26 @@
 
   onMount(() => {
     const newPosts = new EventSource("/watch.json");
-    newPosts.addEventListener('message', () => {
+    newPosts.addEventListener("message", () => {
       invalidateAll();
-    })
-  })
-
+    });
+  });
 </script>
 
 {#if data.user}
   <h1 class="text-center text-4xl pb-5">The Broadcaster</h1>
-  <form class="form-control" method="POST" bind:this={formEl} use:enhance={() => async ({update}) => {await update(); clearEditor()}}>
+  <form
+    class="form-control"
+    method="POST"
+    bind:this={formEl}
+    use:enhance={() =>
+      async ({ update }) => {
+        await update();
+        clearEditor();
+      }}
+  >
     <PostEditor
-        bind:clear={clearEditor}
+      bind:clear={clearEditor}
       content={form?.content}
       viewableAutocomplete={viewableList}
       include={form?.include ?? ""}
@@ -55,7 +63,7 @@
     ></PostEditor>
     <div class="flex gap-10">
       <button type="submit" class="btn mt-5 flex-grow">Post Content</button>
-      <button onclick={postClipboard} class="btn mt-5 jsShown"
+      <button onclick={postClipboard} class="btn mt-5 jsVisible"
         >Post Clipboard</button
       >
     </div>

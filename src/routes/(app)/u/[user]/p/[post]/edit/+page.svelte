@@ -15,7 +15,7 @@
   const viewableList = getAutoCompleteList(
     data.user,
     data.posts,
-    "error" in data.groups ? [] : data.groups
+    "error" in data.groups ? [] : data.groups,
   );
 
   /** @type {HTMLFormElement | undefined} */
@@ -48,7 +48,7 @@
       ></PostEditor>
       <div class="flex gap-10">
         <button type="submit" class="btn mt-5 flex-grow">Post Content</button>
-        <button onclick={postClipboard} class="btn mt-5 jsShown"
+        <button onclick={postClipboard} class="btn mt-5 jsVisible"
           >Post Clipboard</button
         >
       </div>

@@ -17,7 +17,14 @@
    *    clear?: () => void,
    * }}
    */
-  let { viewableAutocomplete, content, include, exclude, user, clear = $bindable() } = $props();
+  let {
+    viewableAutocomplete,
+    content,
+    include,
+    exclude,
+    user,
+    clear = $bindable(),
+  } = $props();
   /** @type {Editor|undefined} */
   let editor = $state();
   let element = $state();
@@ -54,7 +61,6 @@
     if (!textarea) return;
     textarea.textContent = content ?? null;
     textarea.addEventListener("change", () => {
-      console.log("UPDATE");
       editor?.commands.setContent(textarea?.textContent ?? "");
     });
   });
@@ -74,7 +80,7 @@
   });
 </script>
 
-<div bind:this={element} class="prose w-full max-w-full jsShown"></div>
+<div bind:this={element} class="prose w-full max-w-full jsVisible"></div>
 <textarea
   bind:this={textarea}
   name="content"
@@ -90,7 +96,7 @@
   <ChipInput
     class="flex-grow"
     chipOptions={["just you", "everyone", ...viewableAutocomplete]}
-    value={include ?? "just you"}
+    value={include ?? ""}
     placeholder="just you"
     name="include"
     labelid="include-label"
@@ -115,7 +121,7 @@
     <span class="hidden isopenshown">Hide exclude list</span>
   </summary>
   <ChipInput
-    class="input input-bordered inline-flex items-center gap-2"
+    class="input input-bordered inline-flex items-center gap-2 max-w-[300px]"
     chipOptions={["everyone", ...viewableAutocomplete]}
     value={exclude ?? ""}
     placeholder=""

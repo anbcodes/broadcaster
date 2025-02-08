@@ -1,4 +1,5 @@
 <script>
+  import { enhance } from "$app/forms";
   import "../../app.css";
   let { children, data } = $props();
 
@@ -17,6 +18,41 @@
     ...(data.user ? loggedInLinks : loggedOutLinks),
     Help: "/docs",
   });
+
+  const themes = [
+    "light",
+    "dark",
+    "cupcake",
+    "bumblebee",
+    "emerald",
+    "corporate",
+    "synthwave",
+    "retro",
+    "cyberpunk",
+    "valentine",
+    "halloween",
+    "garden",
+    "forest",
+    "aqua",
+    "lofi",
+    "pastel",
+    "fantasy",
+    "wireframe",
+    "black",
+    "luxury",
+    "dracula",
+    "cmyk",
+    "autumn",
+    "business",
+    "acid",
+    "lemonade",
+    "night",
+    "coffee",
+    "winter",
+    "dim",
+    "nord",
+    "sunset",
+  ];
 </script>
 
 <div class="drawer">
@@ -59,8 +95,46 @@
         </svg>
       </label>
       <div class="flex-grow"></div>
-      <form method="POST" action="/changetheme">
-        <button class="btn btn-sm">Theme: {data.theme}</button>
+      <form
+        method="POST"
+        action="/changetheme"
+        use:enhance={(e) =>
+          ({ update }) => {
+            let theme = e.formData.get("theme");
+            if (typeof theme !== "string") return;
+            document.documentElement.setAttribute("data-theme", theme);
+            update();
+          }}
+      >
+        <div class="dropdown dropdown-end">
+          <div tabindex="0" role="button" class="btn m-1">
+            Theme: {data.theme}
+          </div>
+          <ul
+            tabindex="-1"
+            class="dropdown-content menu flex-nowrap w-[240px] bg-base-100 rounded-box z-[1] p-2 shadow max-h-[300px] overflow-y-scroll"
+          >
+            {#each themes as theme}
+              <li>
+                <button
+                  data-theme={theme}
+                  class="btn m-2"
+                  type="submit"
+                  name="theme"
+                  value={theme}
+                >
+                  {theme}
+                  <span class="flex h-full p-1 shrink-0 gap-1">
+                    <span class="bg-primary rounded-badge w-2"></span>
+                    <span class="bg-secondary rounded-badge w-2"></span>
+                    <span class="bg-accent rounded-badge w-2"></span>
+                    <span class="bg-neutral rounded-badge w-2"></span>
+                  </span>
+                </button>
+              </li>
+            {/each}
+          </ul>
+        </div>
       </form>
     </div>
     <main class="max-w-[800px] mx-auto p-5">

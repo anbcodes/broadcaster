@@ -54,6 +54,9 @@
     document.getElementById(labelid)?.addEventListener("click", () => {
       searchEl?.focus();
     });
+    element?.addEventListener("click", () => {
+      searchEl?.focus();
+    });
   });
   const remove = (chip) => {
     if (chip === "just you") {
@@ -89,7 +92,7 @@
 </datalist>
 
 <div
-  class="{className} outline-none gap-1 jsShown overflow-scroll flex"
+  class="{className} outline-none gap-1 jsVisible overflow-scroll flex"
   bind:this={element}
 >
   {#each value
@@ -99,7 +102,7 @@
     .filter((v) => v) as chip}
     <button
       class="btn btn-sm {chip === placeholder ? 'no-animation' : ''} {!isValid(
-        chip
+        chip,
       )
         ? 'btn-error'
         : ''}"
@@ -125,7 +128,7 @@
     </button>
   {/each}
   <input
-    class="min-w-fit"
+    class="flex-grow"
     aria-labelledby={labelid}
     type="search"
     list="{id}-list"
