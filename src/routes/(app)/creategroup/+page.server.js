@@ -1,5 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit";
 
+/** @satisfies {import('./$types').Actions}*/
 export const actions = {
   default: async ({ request, fetch }) => {
     const form = await request.formData();

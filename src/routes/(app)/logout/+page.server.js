@@ -1,5 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit";
 
+/** @satisfies {import('./$types').Actions}*/
 export const actions = {
   default: async ({ fetch, params }) => {
     const result = await fetch(`/logout.json`, {
@@ -17,6 +18,7 @@ export const actions = {
   },
 };
 
+/** @type {import('./$types').PageServerLoad}*/
 export const load = async ({ url }) => {
   return {
     member: url.searchParams.get("m"),

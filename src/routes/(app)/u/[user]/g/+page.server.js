@@ -1,3 +1,4 @@
+/** @type {import('./$types').PageServerLoad}*/
 export async function load({ params, fetch, locals }) {
   return {
     user: params.user,

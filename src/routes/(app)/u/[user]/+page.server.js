@@ -1,3 +1,4 @@
+/** @type {import('./$types').PageServerLoad}*/
 export async function load({ params, fetch, locals }) {
   return {
     /** @type {import('$lib/db.js').Post[] | {error: string}} */

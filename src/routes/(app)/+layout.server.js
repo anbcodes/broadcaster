@@ -1,3 +1,4 @@
+/** @type {import('./$types').LayoutServerLoad}*/
 export function load({ cookies, locals }) {
   return {
     theme: cookies.get("theme") || "system",

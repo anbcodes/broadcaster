@@ -36,6 +36,7 @@ const themes = [
   "sunset",
 ];
 
+/** @satisfies {import('./$types').Actions}*/
 export const actions = {
   default: async ({ cookies, request, fetch }) => {
     const current = cookies.get("theme") ?? "";

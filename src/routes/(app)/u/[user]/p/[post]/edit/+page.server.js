@@ -1,5 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit";
 
+/** @satisfies {import('./$types').Actions}*/
 export const actions = {
   default: async ({ request, fetch }) => {
     const form = await request.formData();
@@ -42,6 +43,7 @@ export const actions = {
   },
 };
 
+/** @type {import('./$types').PageServerLoad}*/
 export async function load({ params, fetch, locals }) {
   return {
     /** @type {import('$lib/db.js').Post[]} */
