@@ -1,15 +1,24 @@
 <script>
+  import { invalidateAll } from "$app/navigation";
   import Post from "$lib/Post.svelte";
+  import { onMount } from "svelte";
 
   const { data } = $props();
 
   let error = $state("");
   /** @type {import('$lib/db.js').Post[]}*/
-  let posts = $state("error" in data.posts ? [] : data.posts);
+  let posts = $derived("error" in data.posts ? [] : data.posts);
 
   if ("error" in data.posts) {
     error = data.posts.error;
   }
+
+  onMount(() => {
+    const newPosts = new EventSource(`/u/${data.user}/watch.json`);
+    newPosts.addEventListener('message', () => {
+      invalidateAll();
+    })
+  })
 </script>
 
 <div class="prose w-full max-w-full pt-10">
