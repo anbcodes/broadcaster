@@ -14,6 +14,10 @@
   display: flex;
 }
 
+.jsVisible {
+  display: none;
+}
+
 /* Tiptap placeholder */
 .tiptap p.is-editor-empty:first-child::before {
   color: #adb5bd;

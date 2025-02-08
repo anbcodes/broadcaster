@@ -8,7 +8,7 @@ export async function POST({ params, request, locals }) {
     return json({ error: "Not logged in" }, { status: 401 });
   }
 
-  let { content, include, exclude } = await request.json();
+  let { content, include = [], exclude = [] } = await request.json();
 
   if (include?.length === 1 && include[0] === "just you") {
     include = [];

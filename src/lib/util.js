@@ -86,3 +86,10 @@ export const getAutoCompleteList = (currentUser, posts, groups) => {
 
   return list;
 };
+
+/**
+ * Turns a string into a url segment (for markdown headings)
+ * @param {string} s 
+ * @returns 
+ */
+export const slugify = (s) => encodeURIComponent(String(s).trim().toLowerCase().replace(/(\s|[^a-zA-Z0-9_-])+/g, '-').replace(/-+$/, ''))

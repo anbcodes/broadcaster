@@ -16,7 +16,9 @@ export async function GET({ params, locals, fetch }) {
       [
         "everyone",
         `@${loggedInUser}`,
-        ...groups.map((group) => "#" + group.name),
+        ...(!("error" in groups)
+          ? groups.map((group) => "#" + group.name)
+          : []),
       ],
       loggedInUser,
     ]
