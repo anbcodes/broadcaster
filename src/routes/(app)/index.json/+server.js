@@ -14,11 +14,6 @@ export async function GET({ params, locals }) {
     [user],
   );
 
-  console.log(
-    [`@${user}`, ...groups.rows.map((group) => "#" + group.groupname)],
-    user,
-  );
-
   /** @type {import('pg').QueryResult<import('$lib/db.js').Post>} */
   const posts = await db.query(
     "SELECT * FROM posts WHERE username = $2 OR (($1) && posts.include AND NOT(($1) && posts.exclude)) ORDER BY created DESC",

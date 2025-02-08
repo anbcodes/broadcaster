@@ -27,8 +27,6 @@ export async function GET({ params, locals, fetch }) {
     ],
   );
 
-  console.log(posts.rows);
-
   const viewablePosts = posts.rows;
 
   return json(viewablePosts);

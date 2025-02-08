@@ -89,7 +89,28 @@ export const getAutoCompleteList = (currentUser, posts, groups) => {
 
 /**
  * Turns a string into a url segment (for markdown headings)
- * @param {string} s 
- * @returns 
+ * @param {string} s
+ * @returns
  */
-export const slugify = (s) => encodeURIComponent(String(s).trim().toLowerCase().replace(/(\s|[^a-zA-Z0-9_-])+/g, '-').replace(/-+$/, ''))
+export const slugify = (s) =>
+  encodeURIComponent(
+    String(s)
+      .trim()
+      .toLowerCase()
+      .replace(/(\s|[^a-zA-Z0-9_-])+/g, "-")
+      .replace(/-+$/, ""),
+  );
+
+/**
+ * @param {typeof fetch} fetch
+ * @param {string} [session]
+ * @returns {typeof fetch}
+ */
+export const authFetch = (fetch, session) => async (url, init) => {
+  const headers = new Headers(init?.headers);
+  if (session) headers.append("cookie", "session=" + session);
+  return await fetch(url, {
+    ...init,
+    headers,
+  });
+};

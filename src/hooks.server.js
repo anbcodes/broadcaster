@@ -1,3 +1,4 @@
+import { csrf } from "$lib/csrfProtection";
 import { db } from "$lib/db";
 import { redirect } from "@sveltejs/kit";
 
@@ -10,12 +11,17 @@ export async function handle({ event, resolve }) {
     await db.query("SELECT * FROM sessions WHERE id = $1", [session])
   ).rows[0];
 
-  const response = await resolve(event, {
-    transformPageChunk: ({ html }) =>
-      html.replace("%theme%", event.cookies.get("theme") ?? ""),
-  });
+  return csrf([/^.*\.json$/g])({
+    event,
+    resolve: async (event) => {
+      const response = await resolve(event, {
+        transformPageChunk: ({ html }) =>
+          html.replace("%theme%", event.cookies.get("theme") ?? ""),
+      });
 
-  return response;
+      return response;
+    },
+  });
 }
 
 export const init = async () => {

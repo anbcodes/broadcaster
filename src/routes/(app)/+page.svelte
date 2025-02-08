@@ -1,8 +1,12 @@
 <script>
+  import { enhance } from "$app/forms";
+  import { invalidateAll } from "$app/navigation";
   import Post from "$lib/Post.svelte";
   import PostEditor from "$lib/PostEditor.svelte";
   import { getAutoCompleteList } from "$lib/util";
+  import { newPost } from "$lib/watcher.js";
   import MarkdownIt from "markdown-it";
+  import { onMount } from "svelte";
 
   let { data, form } = $props();
 
@@ -24,14 +28,22 @@
     const text = await navigator.clipboard.readText();
     if (formEl) {
       formEl.getElementsByTagName("textarea")[0].textContent = text;
-      formEl.submit();
+      formEl.requestSubmit();
     }
   };
+
+  onMount(() => {
+    const newPosts = new EventSource("/watch.json");
+    newPosts.addEventListener('message', () => {
+      invalidateAll();
+    })
+  })
+
 </script>
 
 {#if data.user}
   <h1 class="text-center text-4xl pb-5">The Broadcaster</h1>
-  <form class="form-control" method="POST" bind:this={formEl}>
+  <form class="form-control" method="POST" bind:this={formEl} use:enhance>
     <PostEditor
       content={form?.content}
       viewableAutocomplete={viewableList}
