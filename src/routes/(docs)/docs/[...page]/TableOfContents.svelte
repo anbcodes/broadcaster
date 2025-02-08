@@ -42,7 +42,7 @@
   <ToCItem href="/docs/{mode}">Getting Started</ToCItem>
   <ToCSection open title="Users">
     <ToCItem href="/docs/{mode}/users">Overview</ToCItem>
-    <ToCItem href="/docs/{mode}/users#createuser">Registering</ToCItem>
+    <ToCItem href="/docs/{mode}/users#register">Registering</ToCItem>
     <ToCItem href="/docs/{mode}/users#login"
       >Logging In {tech("(Creating a session)")}</ToCItem
     >

@@ -1,6 +1,7 @@
 import { db } from "$lib/db.js";
 import { json } from "@sveltejs/kit";
 
+/** @type {import('./$types').RequestHandler}*/
 export async function GET({ params, locals }) {
   const user = locals.session?.username;
   if (!user) {
@@ -10,18 +11,18 @@ export async function GET({ params, locals }) {
   /** @type {import('pg').QueryResult<import('$lib/db.js').GroupMember>} */
   const groups = await db.query(
     "SELECT * FROM group_members WHERE username = $1",
-    [user]
+    [user],
   );
 
   console.log(
     [`@${user}`, ...groups.rows.map((group) => "#" + group.groupname)],
-    user
+    user,
   );
 
   /** @type {import('pg').QueryResult<import('$lib/db.js').Post>} */
   const posts = await db.query(
     "SELECT * FROM posts WHERE username = $2 OR (($1) && posts.include AND NOT(($1) && posts.exclude)) ORDER BY created DESC",
-    [[`@${user}`, ...groups.rows.map((group) => "#" + group.groupname)], user]
+    [[`@${user}`, ...groups.rows.map((group) => "#" + group.groupname)], user],
   );
 
   return json(posts.rows);

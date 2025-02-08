@@ -1,6 +1,7 @@
 import { db } from "$lib/db";
 import { json } from "@sveltejs/kit";
 
+/** @type {import('./$types').RequestHandler}*/
 export async function POST({ params, request, locals }) {
   // Check group permissions
   const groupQuery = await db.query("SELECT * FROM groups WHERE name = $1", [
@@ -28,7 +29,7 @@ export async function POST({ params, request, locals }) {
   // Check if user is actually a member
   const memberQuery = await db.query(
     "SELECT * FROM group_members WHERE groupname = $1 AND username = $2",
-    [params.group, username]
+    [params.group, username],
   );
   if (memberQuery.rows.length === 0) {
     return json({ error: "User is not in group" }, { status: 409 });
@@ -37,7 +38,7 @@ export async function POST({ params, request, locals }) {
   // Remove user from group
   const result = await db.query(
     "DELETE FROM group_members WHERE groupname = $1 AND username = $2 RETURNING *",
-    [params.group, username]
+    [params.group, username],
   );
 
   return json(result.rows[0]);

@@ -47,8 +47,8 @@ export async function load({ params, cookies, locals }) {
 
   let replaceRules = {
     USER: locals.session?.username || "[your username]",
-    // URL: "https://b.anb.codes",
-    URL: "https://localhost:5173",
+    URL: "https://b.anb.codes",
+    // URL: "https://localhost:5173",
   };
 
   imported = Object.entries(replaceRules).reduce(

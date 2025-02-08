@@ -1,6 +1,7 @@
 import { db } from "$lib/db.js";
 import { json } from "@sveltejs/kit";
 
+/** @type {import('./$types').RequestHandler}*/
 export async function POST({ params, request, locals }) {
   const { name: group } = await request.json();
   // Check if groupname is valid
@@ -22,13 +23,13 @@ export async function POST({ params, request, locals }) {
   // Add group
   const result = await db.query(
     "INSERT INTO groups (name, owner) VALUES ($1, $2) RETURNING *",
-    [group, locals.session.username]
+    [group, locals.session.username],
   );
 
   // Add user to group
   const addRes = await db.query(
     "INSERT INTO group_members (groupname, username) VALUES ($1, $2)",
-    [group, locals.session.username]
+    [group, locals.session.username],
   );
   if (addRes.rowCount === 0) {
     return json({ error: "Failed to add user to group" }, { status: 500 });

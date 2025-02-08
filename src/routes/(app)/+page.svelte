@@ -74,7 +74,7 @@
     <p>Plus it works from the command line or through a json api</p>
 
     <p>
-      To get started <a href="/createuser">create an account</a> or
+      To get started <a href="/register">create an account</a> or
       <a href="/login">login</a>
     </p>
   </div>

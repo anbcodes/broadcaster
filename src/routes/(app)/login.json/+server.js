@@ -4,6 +4,7 @@ import { json } from "@sveltejs/kit";
 import { verify } from "argon2";
 import { Temporal } from "temporal-polyfill";
 
+/** @type {import('./$types').RequestHandler}*/
 export async function POST({ request }) {
   const { username, password } = await request.json();
   const user = await db.query("SELECT * FROM users WHERE username = $1", [
@@ -17,7 +18,7 @@ export async function POST({ request }) {
     const id = generateRandomId();
     const result = await db.query(
       "INSERT INTO sessions (username, id, created) VALUES ($1, $2, $3) RETURNING *",
-      [username, id, Temporal.Now.zonedDateTimeISO().toString()]
+      [username, id, Temporal.Now.zonedDateTimeISO().toString()],
     );
 
     return json(result.rows[0]);

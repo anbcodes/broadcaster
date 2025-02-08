@@ -3,6 +3,7 @@ import { json } from "@sveltejs/kit";
 import { hash } from "argon2";
 import { Temporal } from "temporal-polyfill";
 
+/** @type {import('./$types').RequestHandler}*/
 export async function POST({ params, request }) {
   const { username, password } = await request.json();
 
@@ -21,7 +22,7 @@ export async function POST({ params, request }) {
 
   const result = await db.query(
     "INSERT INTO users (username, hash, created) VALUES ($1, $2, $3) RETURNING *",
-    [username, phash, Temporal.Now.zonedDateTimeISO().toString()]
+    [username, phash, Temporal.Now.zonedDateTimeISO().toString()],
   );
 
   return json(result.rows[0]);

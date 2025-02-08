@@ -1,6 +1,7 @@
 import { db } from "$lib/db";
 import { json } from "@sveltejs/kit";
 
+/** @type {import('./$types').RequestHandler}*/
 export async function POST({ params, locals }) {
   // Check group permissions
   const groupQuery = await db.query("SELECT * FROM groups WHERE name = $1", [
@@ -18,7 +19,7 @@ export async function POST({ params, locals }) {
   // Delete group
   const result = await db.query(
     "DELETE FROM groups WHERE name = $1 RETURNING *",
-    [params.group]
+    [params.group],
   );
 
   return json(result.rows[0]);

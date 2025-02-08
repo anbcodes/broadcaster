@@ -1,6 +1,7 @@
 import { db } from "$lib/db";
 import { json } from "@sveltejs/kit";
 
+/** @type {import('./$types').RequestHandler}*/
 export async function GET({ params, locals }) {
   const groupQuery = await db.query("SELECT * FROM groups WHERE name = $1", [
     params.group,
@@ -16,10 +17,10 @@ export async function GET({ params, locals }) {
 
   const members = await db.query(
     "SELECT * FROM group_members WHERE groupname = $1",
-    [params.group]
+    [params.group],
   );
 
   return json(
-    members.rows.map((/** @type {{ username: any; }} */ v) => v.username)
+    members.rows.map((/** @type {{ username: any; }} */ v) => v.username),
   );
 }

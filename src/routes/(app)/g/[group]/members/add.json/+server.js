@@ -16,6 +16,7 @@ import { json } from "@sveltejs/kit";
  */
 const tjson = (v, options) => json(v, options);
 
+/** @type {import('./$types').RequestHandler}*/
 export async function POST({ params, request, locals }) {
   // Check group permissions
   const groupQuery = await db.query("SELECT * FROM groups WHERE name = $1", [
@@ -43,7 +44,7 @@ export async function POST({ params, request, locals }) {
   // Check if user is already a member
   const memberQuery = await db.query(
     "SELECT * FROM group_members WHERE groupname = $1 AND username = $2",
-    [params.group, username]
+    [params.group, username],
   );
   if (memberQuery.rows.length > 0) {
     return tjson({ error: "User already in group" }, { status: 409 });
@@ -53,7 +54,7 @@ export async function POST({ params, request, locals }) {
   /** @type {import('pg').QueryResult<import('$lib/db.js').GroupMember>} */
   const result = await db.query(
     "INSERT INTO group_members (groupname, username) VALUES ($1, $2) RETURNING *",
-    [params.group, username]
+    [params.group, username],
   );
 
   return tjson(result.rows[0]);

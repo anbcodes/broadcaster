@@ -12,7 +12,7 @@ export const actions = {
       return fail(400, { username, error: "Passwords do not match" });
     }
 
-    const result = await fetch("/createuser.json", {
+    const result = await fetch("/register.json", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -2,6 +2,7 @@ import { db } from "$lib/db";
 import { json } from "@sveltejs/kit";
 import { Temporal } from "temporal-polyfill";
 
+/** @type {import('./$types').RequestHandler}*/
 export async function POST({ params, request, locals }) {
   const { user } = params;
   if (locals.session?.username !== user) {
@@ -26,7 +27,7 @@ export async function POST({ params, request, locals }) {
       exclude,
       Temporal.Now.zonedDateTimeISO().toString(),
       params.post,
-    ]
+    ],
   );
 
   return json(result.rows[0]);

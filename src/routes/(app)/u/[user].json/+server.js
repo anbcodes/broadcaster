@@ -1,6 +1,7 @@
 import { db } from "$lib/db.js";
 import { json } from "@sveltejs/kit";
 
+/** @type {import('./$types').RequestHandler}*/
 export async function GET({ params, locals, fetch }) {
   const loggedInUser = locals.session?.username;
   const userForPosts = params.user;
@@ -21,7 +22,7 @@ export async function GET({ params, locals, fetch }) {
           : []),
       ],
       loggedInUser,
-    ]
+    ],
   );
 
   console.log(posts.rows);

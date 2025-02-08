@@ -1,5 +1,6 @@
 import { text } from "@sveltejs/kit";
 
+/** @type {import('./$types').RequestHandler}*/
 export async function GET({ params, fetch, request }) {
   const { user } = params;
   /** @type {import('$lib/db.js').Post[]} */
@@ -10,6 +11,6 @@ export async function GET({ params, fetch, request }) {
     "# " +
       user +
       "\n\n" +
-      posts.map((post) => `${post.content}`).join("\n\n---\n\n")
+      posts.map((post) => `${post.content}`).join("\n\n---\n\n"),
   );
 }

@@ -2,14 +2,14 @@
 
 The users API (essentially authentication) consists of the following endpoints:
 
-- [`/createuser.json` - Register a new user](#createuser)
+- [`/register.json` - Register a new user](#register)
 - [`/login.json` - Login and get a session](#login)
 - [`/logout.json` - Delete a session](#logout)
 
 There is no "API Key" system. Instead, just login with your username and
 password and use the session id.
 
-## `/createuser.json` - Register a new user {#createuser}
+## `/register.json` - Register a new user {#register}
 
 ### Request format
 
@@ -41,7 +41,7 @@ password and use the session id.
 Create a user named `joe` with the password `supersecure`
 
 ```bash
-curl '%URL%/createuser.json' \
+curl '%URL%/register.json' \
   -d '{"username": "joe", "password": "supersecure"}' \
   -H "Content-Type: application/json"
 ```

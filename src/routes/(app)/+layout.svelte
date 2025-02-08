@@ -9,7 +9,7 @@
 
   let loggedOutLinks = {
     Login: "/login",
-    Register: "/createuser",
+    Register: "/register",
   };
 
   let links = Object.entries({
