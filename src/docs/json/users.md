@@ -25,7 +25,6 @@ password and use the session id.
 ```json
 {
   "username": "string",
-  "hash": "string",
   "created": "string"
 }
 ```
@@ -49,7 +48,6 @@ curl '%URL%/register.json' \
 ```json
 {
   "username": "joe",
-  "hash": "$argon2id$v=19$m=65536,t=3,p=4$l75StP9Jho5Vk5n333W8/w$1+IzyqSeau/+6RBPPQnVe6sVq3kB07LLyCPzHgxVnFA",
   "created": "2025-02-07T19:38:03.864-05:00[America/New_York]"
 }
 ```

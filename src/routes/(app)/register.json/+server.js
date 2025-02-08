@@ -25,5 +25,10 @@ export async function POST({ params, request }) {
     [username, phash, Temporal.Now.zonedDateTimeISO().toString()],
   );
 
-  return json(result.rows[0]);
+  const row = result.rows[0];
+
+  return json({
+    username: row.username,
+    created: row.created,
+  });
 }
