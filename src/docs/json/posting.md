@@ -7,6 +7,7 @@ string with a list of people who can and can't see it (see
 The Posting API is split into the following endpoints:
 
 - [`/u/[user].json` - Get a user's posts](#get)
+- [`/u/[user]/watch.json` - Watch a user's posts](#watch)
 - [`/u/[user]/p/new.json` - Create a post](#create)
 - [`/u/[user]/p/[post]/edit.json` - Edit a post](#edit)
 - `/u/[user]/p/[post]/delete.json` - Delete a post (unimplemented)
@@ -69,6 +70,48 @@ curl '%URL%/u/joe.json'
     "exclude": []
   }
 ]
+```
+
+## `GET /watch.json` - Watches the user's posts. {#watch}
+
+### Request Format
+
+No parameters.
+
+### Response Format
+
+The response is a
+[Server Sent Event](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events)
+stream of posts in JSON format.
+
+```text
+id: number
+event: message
+data: {"id": "number", "username": "string", "content": "string", "include": "string[]", "exclude": "string[]", "created": "string", "updated": "string"}
+
+...
+```
+
+### Possible errors
+
+- `Not logged in`
+
+### Example
+
+Watch for joe's new public posts.
+
+```bash
+curl '%URL%/u/joe/watch.json'
+```
+
+```text
+id: 1
+event: message
+data: {"id":34,"username":"test2","content":"test","created":"2025-02-08T13:34:42.768-05:00[America/New_York]","updated":"2025-02-08T13:34:42.768-05:00[America/New_York]","include":["everyone"],"exclude":[]}
+
+id: 2
+event: message
+data: {"id":35,"username":"test2","content":"nice","created":"2025-02-08T13:34:47.089-05:00[America/New_York]","updated":"2025-02-08T13:34:47.089-05:00[America/New_York]","include":["everyone"],"exclude":[]}
 ```
 
 ## `/u/[user]/p/new.json` - Create a post {#create}

@@ -1,4 +1,5 @@
 import { db } from "$lib/db";
+import { newPost } from "$lib/watcher";
 import { json } from "@sveltejs/kit";
 import { Temporal } from "temporal-polyfill";
 
@@ -30,6 +31,8 @@ export async function POST({ params, request, locals }) {
       Temporal.Now.zonedDateTimeISO().toString(),
     ],
   );
+
+  newPost(result.rows[0]);
 
   return json(result.rows[0]);
 }

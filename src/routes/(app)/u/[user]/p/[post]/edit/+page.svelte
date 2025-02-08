@@ -2,6 +2,7 @@
   import { Temporal } from "temporal-polyfill";
   import PostEditor from "$lib/PostEditor.svelte";
   import { getAutoCompleteList } from "$lib/util.js";
+  import { enhance } from "$app/forms";
 
   const { data, form } = $props();
 
@@ -9,7 +10,7 @@
     return Temporal.ZonedDateTime.compare(b.created, a.created);
   });
 
-  const post = data.posts.find((v) => v.id === +data.post);
+  const post = $derived(data.posts.find((v) => v.id === +data.post));
 
   const viewableList = getAutoCompleteList(
     data.user,
@@ -37,7 +38,7 @@
 <div class="prose w-full max-w-full pt-10">
   <h1>Edit Post</h1>
   {#if data.self && post}
-    <form bind:this={formEl} class="form-control" method="POST">
+    <form bind:this={formEl} class="form-control" method="POST" use:enhance>
       <PostEditor
         content={form?.content ?? post.content}
         viewableAutocomplete={viewableList}

@@ -2,7 +2,7 @@ import { fail, redirect } from "@sveltejs/kit";
 
 /** @satisfies {import('./$types').Actions}*/
 export const actions = {
-  default: async ({ request, fetch }) => {
+  default: async ({ request, fetch, params }) => {
     const form = await request.formData();
     const content = form.get("content");
     const include = form.get("include") ?? "";
@@ -22,7 +22,7 @@ export const actions = {
     }
 
     const result = await (
-      await fetch("./edit.json", {
+      await fetch(`/u/${params.user}/p/${params.post}/edit.json`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,7 +39,7 @@ export const actions = {
       return fail(400, { content, include, exclude, error: result.error });
     }
 
-    return redirect(303, "../");
+    return redirect(303, `/`);
   },
 };
 
