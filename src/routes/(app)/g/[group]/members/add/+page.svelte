@@ -1,4 +1,6 @@
 <script>
+  import { enhance } from "$app/forms";
+
   let { form } = $props();
 </script>
 
@@ -7,7 +9,7 @@
 
   <h1 class="text-center mb-0 pb-0">Add member</h1>
 
-  <form class="form-control" method="POST">
+  <form class="form-control" method="POST" use:enhance>
     <label class="label pt-3" for="username">
       <span class="label-text">Username</span>
     </label>

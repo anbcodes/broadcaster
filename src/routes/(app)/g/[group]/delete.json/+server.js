@@ -22,5 +22,11 @@ export async function POST({ params, locals }) {
     [params.group],
   );
 
+  // Delete group members
+  const members = await db.query(
+    "DELETE FROM group_members WHERE groupname = $1 RETURNING *",
+    [params.group],
+  );
+
   return json(result.rows[0]);
 }

@@ -1,4 +1,6 @@
 <script>
+  import { enhance } from "$app/forms";
+
   let { data, form } = $props();
 </script>
 
@@ -7,7 +9,7 @@
 
   <h1 class="text-center mb-0 pb-0">Remove {data.member}?</h1>
 
-  <form class="form-control" method="POST">
+  <form class="form-control" method="POST" use:enhance>
     <input type="hidden" value={data.member} name="username" />
     <button class="btn mt-5">Remove</button>
     {#if form?.error}
