@@ -9,6 +9,7 @@
   import { onMount } from "svelte";
 
   let { data, form } = $props();
+  let clearEditor = $state();
 
   const viewableList = getAutoCompleteList(
     data.user ?? "",
@@ -43,8 +44,9 @@
 
 {#if data.user}
   <h1 class="text-center text-4xl pb-5">The Broadcaster</h1>
-  <form class="form-control" method="POST" bind:this={formEl} use:enhance>
+  <form class="form-control" method="POST" bind:this={formEl} use:enhance={() => async ({update}) => {await update(); clearEditor()}}>
     <PostEditor
+        bind:clear={clearEditor}
       content={form?.content}
       viewableAutocomplete={viewableList}
       include={form?.include ?? ""}

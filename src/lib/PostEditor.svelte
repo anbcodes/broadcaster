@@ -14,14 +14,23 @@
    *    include: string | undefined,
    *    exclude: string | undefined,
    *    user: string,
+   *    clear?: () => void,
    * }}
    */
-  let { viewableAutocomplete, content, include, exclude, user } = $props();
+  let { viewableAutocomplete, content, include, exclude, user, clear = $bindable() } = $props();
   /** @type {Editor|undefined} */
   let editor = $state();
   let element = $state();
+  /** @type {HTMLTextAreaElement | undefined} */
   let textarea = $state();
   let formEl = $state();
+
+  clear = () => {
+    editor?.commands.setContent("");
+    if (textarea) textarea.textContent = "";
+    formEl?.reset();
+  };
+
   onMount(() => {
     editor = new Editor({
       element: element,
@@ -38,10 +47,16 @@
         editor = editor;
       },
       onUpdate: ({ editor }) => {
+        if (!textarea) return;
         textarea.textContent = editor.storage.markdown.getMarkdown();
       },
     });
-    textarea.textContent = content;
+    if (!textarea) return;
+    textarea.textContent = content ?? null;
+    textarea.addEventListener("change", () => {
+      console.log("UPDATE");
+      editor?.commands.setContent(textarea?.textContent ?? "");
+    });
   });
 
   $effect(() => {
