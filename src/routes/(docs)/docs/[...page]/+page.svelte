@@ -28,22 +28,26 @@
         '<button class="absolute top-2 right-2 btn btn-neutral btn-xs copy-btn jsVisible">Copy</button>',
     });
 
-  onMount(() => {
-    document.querySelectorAll(".copy-btn").forEach((btn) => {
-      if (btn instanceof HTMLButtonElement) {
-        btn.addEventListener("click", async () => {
-          const code = btn.parentElement?.querySelector("code");
-          const value = code?.innerText;
-          if (value) {
-            await navigator.clipboard.writeText(value);
-            btn.innerText = "Copied!";
-            setTimeout(() => {
-              btn.innerText = "Copy";
-            }, 5000);
-          }
-        });
-      }
-    });
+  $effect(() => {
+    if (data.content) {
+      document.querySelectorAll(".copy-btn").forEach((btn) => {
+        btn.innerText = "Copy";
+        if (btn instanceof HTMLButtonElement) {
+          btn.addEventListener("click", async () => {
+            const code = btn.parentElement?.querySelector("code");
+            const value = code?.innerText;
+            if (value) {
+              await navigator.clipboard.writeText(value);
+              btn.innerText = "Copied!";
+              setTimeout(() => {
+                btn.innerText = "Copy";
+              }, 5000);
+            }
+          });
+        }
+      });
+    }
+
   });
 </script>
 
