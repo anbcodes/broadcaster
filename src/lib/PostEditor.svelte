@@ -41,6 +41,12 @@
   onMount(() => {
     editor = new Editor({
       element: element,
+      injectCSS: false,
+      editorProps: {
+        attributes: {
+          class: "",
+        },
+      },
       extensions: [
         StarterKit,
         Markdown.configure({
@@ -80,7 +86,10 @@
   });
 </script>
 
-<div bind:this={element} class="prose w-full max-w-full jsVisible"></div>
+<div
+  bind:this={element}
+  class="prose leading-tight w-full max-w-full jsVisible"
+></div>
 <textarea
   bind:this={textarea}
   name="content"
@@ -133,7 +142,7 @@
 
 <style>
   :global(.tiptap) {
-    @apply textarea textarea-bordered py-0;
+    @apply textarea textarea-bordered py-0 prose leading-tight max-w-full;
   }
 
   :global(.tiptap h1:nth-child(1)) {

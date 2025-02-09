@@ -26,6 +26,8 @@
       >edit</a
     >{/if}
 </div>
-<div class="card card-bordered border-neutral p-4 mb-4">
+<div
+  class="prose leading-tight rounded-box border-2 border-neutral-600 max-w-full p-4 mb-4"
+>
   {@html md.render(post.content)}
 </div>
