@@ -1,23 +1,26 @@
 import { fail, redirect } from "@sveltejs/kit";
+import { BError } from "thebroadcaster";
 
 /** @satisfies {import('./$types').Actions}*/
 export const actions = {
-  default: async ({ request, fetch, params }) => {
+  default: async ({ request, params, locals: { api } }) => {
     const form = await request.formData();
     const username = form.get("username");
 
-    const result = await fetch(`/g/${params.group}/members/add.json`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username }),
-    });
-
-    if (result.status !== 200) {
-      return fail(result.status, { username, ...(await result.json()) });
+    if (typeof username !== "string") {
+      return fail(400, { username, error: "Invalid input" });
     }
 
-    return redirect(303, `/g/${params.group}/members`);
+    try {
+      await api.addUserToGroup(params.group, username);
+
+      return redirect(303, `/g/${params.group}/members`);
+    } catch (e) {
+      if (e instanceof BError) {
+        return fail(400, { error: e.message });
+      } else {
+        throw e;
+      }
+    }
   },
 };

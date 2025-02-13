@@ -1,8 +1,9 @@
 import { fail, redirect } from "@sveltejs/kit";
+import { BError } from "thebroadcaster";
 
 /** @satisfies {import('./$types').Actions}*/
 export const actions = {
-  default: async ({ request, fetch, params }) => {
+  default: async ({ request, params, locals: { api } }) => {
     const form = await request.formData();
     const content = form.get("content");
     const include = form.get("include") ?? "";
@@ -21,22 +22,21 @@ export const actions = {
       });
     }
 
-    const result = await (
-      await fetch(`/u/${params.user}/p/${params.post}/edit.json`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          content,
-          include: include.split(",").filter((v) => v.trim()),
-          exclude: exclude.split(",").filter((v) => v.trim()),
-        }),
-      })
-    ).json();
+    try {
+      await api.editPost({
+        id: params.post,
+        content,
+        include: include.split(",").filter((v) => v.trim()),
+        exclude: exclude.split(",").filter((v) => v.trim()),
+      });
 
-    if (result.error) {
-      return fail(400, { content, include, exclude, error: result.error });
+      redirect(303, "/");
+    } catch (e) {
+      if (e instanceof BError) {
+        return fail(400, { content, include, exclude, error: e.message });
+      } else {
+        throw e;
+      }
     }
 
     return redirect(303, `/`);
@@ -44,14 +44,12 @@ export const actions = {
 };
 
 /** @type {import('./$types').PageServerLoad}*/
-export async function load({ params, fetch, locals }) {
+export async function load({ params, locals: { session, api } }) {
   return {
-    /** @type {import('$lib/db.js').Post[]} */
-    posts: await fetch(`/u/${params.user}.json`).then((r) => r.json()),
+    posts: await api.getPosts(params.user),
     user: params.user,
-    /** @type {import('$lib/db.js').Group[]} */
-    groups: await fetch(`/u/${params.user}/groups.json`).then((r) => r.json()),
-    self: params.user === locals.session?.username,
+    groups: session?.username ? await api.getGroups() : [],
+    self: params.user === session?.username,
     post: params.post,
   };
 }

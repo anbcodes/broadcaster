@@ -22,7 +22,10 @@ export function onPost(by, visibleTo, cb) {
  * @param {import('./db.js').Post} post
  */
 export function newPost(post) {
-  const listeners = [...callbacks["*"], ...(callbacks[post.username] || [])];
+  const listeners = [
+    ...(callbacks["*"] || []),
+    ...(callbacks[post.username] || []),
+  ];
   for (const { cb, visibleTo } of listeners) {
     if (
       visibleTo.includes("@" + post.username) ||

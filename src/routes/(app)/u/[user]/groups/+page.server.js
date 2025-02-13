@@ -1,9 +1,9 @@
 /** @type {import('./$types').PageServerLoad}*/
-export async function load({ params, fetch, locals }) {
+export async function load({ params, locals: { api, session } }) {
   return {
     user: params.user,
     /** @type {import('$lib/db.js').Group[]} */
-    groups: await fetch(`/u/${params.user}/groups.json`).then((r) => r.json()),
-    self: params.user === locals.session?.username,
+    groups: session?.username ? await api.getGroups() : [],
+    self: params.user === session?.username,
   };
 }

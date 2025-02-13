@@ -2,14 +2,11 @@ import { db } from "$lib/db.js";
 import { json } from "@sveltejs/kit";
 
 /** @type {import('./$types').RequestHandler}*/
-export async function GET({ params, locals, fetch }) {
-  const loggedInUser = locals.session?.username;
+export async function GET({ params, locals: { api, session } }) {
+  const loggedInUser = session?.username;
   const userForPosts = params.user;
 
-  /** @type {{name: string, owner: string}[]} */
-  const groups = await fetch(`/u/${loggedInUser}/groups.json`).then((r) =>
-    r.json(),
-  );
+  const groups = loggedInUser ? await api.getGroups() : [];
 
   /** @type {import('pg').QueryResult<import('$lib/db.js').Post>} */
   const posts = await db.query(
@@ -19,9 +16,7 @@ export async function GET({ params, locals, fetch }) {
       [
         "everyone",
         `@${loggedInUser}`,
-        ...(!("error" in groups)
-          ? groups.map((group) => "#" + group.name)
-          : []),
+        ...groups.map((group) => "#" + group.name),
       ],
       loggedInUser,
     ],

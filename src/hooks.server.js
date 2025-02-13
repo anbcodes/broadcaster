@@ -1,6 +1,7 @@
 import { csrf } from "$lib/csrfProtection";
 import { db } from "$lib/db";
 import { redirect } from "@sveltejs/kit";
+import { BClient } from "thebroadcaster";
 
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
@@ -10,6 +11,13 @@ export async function handle({ event, resolve }) {
   event.locals.session = (
     await db.query("SELECT * FROM sessions WHERE id = $1", [session])
   ).rows[0];
+
+  event.locals.api = new BClient({
+    url: "",
+    fetch: event.fetch,
+    session: event.locals.session?.id ?? "",
+    user: event.locals.session?.username ?? "",
+  });
 
   return csrf([/^.*\.json$/g])({
     event,

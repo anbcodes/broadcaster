@@ -1,34 +1,28 @@
 import { fail, redirect } from "@sveltejs/kit";
+import { BError } from "thebroadcaster";
 
 /** @type {import('./$types').PageServerLoad}*/
-export async function load({ locals, params, fetch }) {
+export async function load({ locals: { api, session }, params }) {
   return {
-    user: locals.session?.username,
+    user: session?.username,
     group: params.group,
-    members: await fetch(`/g/${params.group}/members.json`).then((r) =>
-      r.json(),
-    ),
+    members: session?.username ? await api.getGroupMembers(params.group) : [],
   };
 }
 
 /** @satisfies {import('./$types').Actions}*/
 export const actions = {
-  default: async ({ request, locals, params, fetch }) => {
-    const form = await request.formData();
+  default: async ({ locals: { api, session }, params }) => {
+    try {
+      await api.deleteGroup(params.group);
 
-    const user = locals.session?.username;
-
-    const result = await fetch(`/g/${params.group}/delete.json`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (result.status !== 200) {
-      return fail(result.status, { ...(await result.json()) });
+      return redirect(303, `/u/${session?.username}/groups`);
+    } catch (e) {
+      if (e instanceof BError) {
+        return fail(400, { error: e.message });
+      } else {
+        throw e;
+      }
     }
-
-    return redirect(303, `/u/${user}/groups`);
   },
 };

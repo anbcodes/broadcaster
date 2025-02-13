@@ -43,6 +43,7 @@
     "markdown-it-github-alerts": "^0.3.0",
     "pg": "^8.13.1",
     "temporal-polyfill": "^0.2.5",
+    "thebroadcaster": "file:packages/js",
     "tiptap-markdown": "^0.8.10"
   }
 }

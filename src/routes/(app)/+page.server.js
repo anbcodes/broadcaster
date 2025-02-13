@@ -1,12 +1,14 @@
 import { fail, redirect } from "@sveltejs/kit";
+import { BError } from "thebroadcaster";
 
 /** @satisfies {import('./$types').Actions}*/
 export const actions = {
-  default: async ({ request, fetch, locals }) => {
+  default: async ({ request, locals: { api } }) => {
     const form = await request.formData();
     const content = form.get("content") ?? "";
-    const include = form.get("include") ?? "none";
-    const exclude = form.get("exclude") ?? "none";
+    const include = form.get("include") ?? "";
+    const exclude = form.get("exclude") ?? "";
+    console.log({ content });
 
     if (
       typeof content !== "string" ||
@@ -21,43 +23,35 @@ export const actions = {
       });
     }
 
-    const result = await (
-      await fetch(`/u/${locals.session?.username}/p/new.json`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          content,
-          include: include.split(",").filter((v) => v.trim()),
-          exclude: exclude.split(",").filter((v) => v.trim()),
-        }),
-      })
-    ).json();
+    try {
+      await api.post({
+        content,
+        include: include.split(",").filter((v) => v.trim()),
+        exclude: exclude.split(",").filter((v) => v.trim()),
+      });
 
-    if (result.error) {
-      return fail(400, { content, include, exclude, error: result.error });
+      redirect(303, "/");
+    } catch (e) {
+      if (e instanceof BError) {
+        return fail(400, { content, include, exclude, error: e.message });
+      } else {
+        throw e;
+      }
     }
-
-    return redirect(303, "/");
   },
 };
 
 /** @type {import('./$types').PageServerLoad}*/
-export async function load({ params, fetch, locals, request }) {
-  const user = locals.session?.username;
+export async function load({ locals: { api, session }, request }) {
+  const user = session?.username;
 
   if (user && request.headers.get("user-agent")?.includes("curl")) {
     redirect(307, "/index.md");
   }
 
   return {
-    /** @type {import('$lib/db.js').Post[] | {error: string}} */
-    posts: user ? await fetch(`/index.json`).then((r) => r.json()) : [],
+    posts: user ? await api.feed() : [],
     user: user,
-    /** @type {import('$lib/db.js').Group[] | {error: string}} */
-    groups: user
-      ? await fetch(`/u/${user}/groups.json`).then((r) => r.json())
-      : [],
+    groups: user ? await api.getGroups() : [],
   };
 }

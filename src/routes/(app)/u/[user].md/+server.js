@@ -1,12 +1,9 @@
 import { text } from "@sveltejs/kit";
 
 /** @type {import('./$types').RequestHandler}*/
-export async function GET({ params, fetch, request }) {
+export async function GET({ params, locals: { api } }) {
   const { user } = params;
-  /** @type {import('$lib/db.js').Post[]} */
-  const posts = await (
-    await fetch(`/u/${user}.json` + new URL(request.url).search)
-  ).json();
+  const posts = await api.getPosts(user);
   return text(
     "# " +
       user +

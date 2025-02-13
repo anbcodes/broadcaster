@@ -47,9 +47,9 @@
         user={data.user}
       ></PostEditor>
       <div class="flex gap-10">
-        <button type="submit" class="btn mt-5 flex-grow">Post Content</button>
+        <button type="submit" class="btn mt-5 flex-grow">Save Content</button>
         <button onclick={postClipboard} class="btn mt-5 jsVisible"
-          >Post Clipboard</button
+          >Save Clipboard</button
         >
       </div>
       {#if form?.error}

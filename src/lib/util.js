@@ -100,17 +100,3 @@ export const slugify = (s) =>
       .replace(/(\s|[^a-zA-Z0-9_-])+/g, "-")
       .replace(/-+$/, ""),
   );
-
-/**
- * @param {typeof fetch} fetch
- * @param {string} [session]
- * @returns {typeof fetch}
- */
-export const authFetch = (fetch, session) => async (url, init) => {
-  const headers = new Headers(init?.headers);
-  if (session) headers.append("cookie", "session=" + session);
-  return await fetch(url, {
-    ...init,
-    headers,
-  });
-};

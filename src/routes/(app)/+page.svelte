@@ -6,7 +6,8 @@
   import { getAutoCompleteList } from "$lib/util";
   import { newPost } from "$lib/watcher.js";
   import MarkdownIt from "markdown-it";
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
+  import { BClient } from "thebroadcaster";
 
   let { data, form } = $props();
   let clearEditor = $state();
@@ -34,8 +35,8 @@
   };
 
   onMount(() => {
-    const newPosts = new EventSource("/watch.json");
-    newPosts.addEventListener("message", () => {
+    const client = new BClient({ url: "" });
+    client.watchFeed(() => {
       invalidateAll();
     });
   });

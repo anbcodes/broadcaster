@@ -1,4 +1,7 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
+
+import type { BClient } from "thebroadcaster";
+
 // for information about these interfaces
 declare global {
   namespace App {
@@ -9,6 +12,7 @@ declare global {
         id: string;
         created: string;
       };
+      api: BClient;
     }
     // interface PageData {}
     // interface PageState {}

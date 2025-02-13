@@ -1,20 +1,21 @@
 import { fail, redirect } from "@sveltejs/kit";
+import { BError } from "thebroadcaster";
 
 /** @satisfies {import('./$types').Actions}*/
 export const actions = {
-  default: async ({ fetch, params }) => {
-    const result = await fetch(`/logout.json`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  default: async ({ cookies, locals: { api } }) => {
+    try {
+      await api.logout();
+      cookies.set("session", "", { path: "/", maxAge: 0 });
 
-    if (result.status !== 200) {
-      return fail(result.status, { ...(await result.json()) });
+      redirect(303, `/`);
+    } catch (e) {
+      if (e instanceof BError) {
+        return fail(400, { error: e.message });
+      } else {
+        throw e;
+      }
     }
-
-    return redirect(303, `/`);
   },
 };
 

@@ -38,7 +38,7 @@ const themes = [
 
 /** @satisfies {import('./$types').Actions}*/
 export const actions = {
-  default: async ({ cookies, request, fetch }) => {
+  default: async ({ cookies, request }) => {
     const data = await request.formData();
     let theme = data.get("theme") ?? "";
     if (typeof theme !== "string" || !themes.includes(theme)) {
