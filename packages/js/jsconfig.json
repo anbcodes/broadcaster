@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "module": "preserve",
+    "target": "esnext"
+  },
+  "exclude": ["node_modules"]
+}
